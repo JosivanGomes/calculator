@@ -1,0 +1,71 @@
+#container{
+    width: 332px;
+    background-color: rgb(31, 29, 29);
+    padding: 10px;
+    border-radius: 8px;
+    padding: 5px;
+    color: rgba(255, 255, 255, 0.37);
+    text-align: center;
+
+}
+
+#screen{
+    background-color: rgb(175, 168, 168);
+    height:150px;
+    border: 2px solid rgb(99, 97, 97);
+    border-radius: 8px;
+    margin: 5px 0;
+    font-family: Arial, Helvetica, sans-serif;
+         
+}
+
+#math-operations{
+    margin-top: 20px;
+    margin-right: 10px;
+    float: right;
+
+}
+
+#date-hour{
+    float: left;
+    margin: 5px;
+    font-size: 18px;
+    font-weight: bolder;
+    color: rgb(66, 65, 65);
+    
+}
+
+#date-hour span{
+    font-size: 14px;
+}
+
+#historic{
+    font-size: 18px;
+    font-weight: bolder;
+    color: rgba(0, 0, 0, 0.575);
+    margin-top: 20px;
+}
+
+#content{
+    color: black;
+    font-size: 74px;
+}
+
+button{
+    width: 80px;
+    height: 50px;
+    background-color: rgb(41, 38, 38);
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    margin-top: 4px;
+    
+}
+
+.calc-op{
+    background-color: rgb(65, 62, 62);
+}
+
+#btn-equal{
+    background-color: rgb(70, 107, 150);
+}
