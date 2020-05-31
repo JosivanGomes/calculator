@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <title>Calculator</title>
 </head>
@@ -12,15 +12,20 @@
     <div id="container">
         by Josivan Gomes
         <section id="screen">
-            <div id="date-hour">
-                30/05/2020 - 01:13<span>:05</span>
+            <div id="date_hour">
+                <div id="time">
+                    <span id="hour"></span>:<span id="minutes"></span><span class="separatorSeconds">:</span><span id="seconds"></span>
+                </div>
+                <div id="date">
+                    
+                </div>
             </div>
             <div id="math-operations">
                 <div id="historic">
-                    10 + 5 =
+                    
                 </div>
                 <div id="content">
-                    15
+                    
                 </div>
             </div>
         </section>
@@ -55,8 +60,8 @@
         </section>
 
         
-            
-        
+        <script src="scripts/controller/calcController.js"></script>    
+        <script src="scripts/calculator.js"></script>
     </div>
 </body>
 </html>
