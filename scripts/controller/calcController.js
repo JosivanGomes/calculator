@@ -25,13 +25,7 @@ class CalcController{
         /*
         let historicEl = document.querySelector("#historic")
 
-        
-        
-        
-        
-
         historicEl.innerHTML = "10 + 2 ="
-
 
         dateEl.innerHTML = "31/05/2020"
         hourEl.innerHTML = "08"
@@ -40,22 +34,17 @@ class CalcController{
 
         */
          
-
     }
 
-    lengthTimeUnity(value){
-        return (value.toString().length == 1)
+    //
+    
+    //Operation's Calculator
+    initButtons(){
+        let buttons = document.querySelectorAll("#buttons > button")
     }
     
-        
-    getDateTimeNow(){
-        this.displayDateEl = this.currentDate().toLocaleDateString(this.locale)
-
-        this.displayHourEl = this.currentDate().getHours()
-        this.displayMinutesEl = this.currentDate().getMinutes()
-        this.displaySecondsEl = this.currentDate().getSeconds()
-            
-    }
+    
+    //Display Operations
 
     get displayCalcContent(){
         return this._displayContentEl
@@ -65,7 +54,33 @@ class CalcController{
         this._displayContentEl.innerHTML = value
     }
 
-    //Date and Time
+    //Operation's Date and Time
+    currentDate(){
+        return new Date()
+    }
+
+    getDateTimeNow(){
+        this.displayDateEl = this.currentDate().toLocaleDateString(this.locale)
+
+        this.displayHourEl = this.currentDate().getHours()
+        this.displayMinutesEl = this.currentDate().getMinutes()
+        this.displaySecondsEl = this.currentDate().getSeconds()
+            
+    }
+
+    lengthTimeUnity(value){
+        return (value.toString().length == 1)
+    }
+
+    formatSetDT(value, display){
+        if(this.lengthTimeUnity(value)){
+            display.innerHTML = `0${value}`
+        }else{
+            display.innerHTML = value
+        }
+    }
+    //Display Date and Time
+
     get displayDateEl(){
         return this._displayDateEl
     }
@@ -80,11 +95,7 @@ class CalcController{
     }
 
     set displayHourEl(value){
-        if(this.lengthTimeUnity(value)){
-            this._displayHourEl.innerHTML = `0${value}`
-        }else{
-            this._displayHourEl.innerHTML = value
-        }
+        this.formatSetDT(value, this._displayHourEl)    
     }
 
     get displayMinutesEl(){
@@ -92,11 +103,7 @@ class CalcController{
     }
 
     set displayMinutesEl(value){
-        if(this.lengthTimeUnity(value)){
-            this._displayMinutesEl.innerHTML = `0${value}`
-        }else{
-            this._displayMinutesEl.innerHTML = value
-        }
+        this.formatSetDT(value, this._displayMinutesEl)    
     }
 
 
@@ -105,17 +112,9 @@ class CalcController{
     }
 
     set displaySecondsEl(value){
-        if(this.lengthTimeUnity(value)){
-            this._displaySecondsEl.innerHTML = `0${value}`
-        }else{
-            this._displaySecondsEl.innerHTML = value
-        }
+        this.formatSetDT(value, this._displaySecondsEl)    
         
     }
-    currentDate(){
-        return new Date()
-    }
-
-    
+      
 
 }
