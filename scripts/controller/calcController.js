@@ -16,6 +16,8 @@ class CalcController{
     }
 
     initialize(){
+        this.initButtons()
+
         this.getDateTimeNow()
 
         setInterval(() => {
@@ -36,11 +38,26 @@ class CalcController{
          
     }
 
-    //
+    //Utilites
+    addEventListenerAll(element, events, def){
+        events.split(' ').forEach(event=>{
+            element.addEventListener(event, def)
+        })
+    }
     
     //Operation's Calculator
     initButtons(){
         let buttons = document.querySelectorAll("#buttons > button")
+
+        buttons.forEach((btn, index)=>{
+            this.addEventListenerAll(btn, 'click drag', e=>{
+                console.log(btn.innerHTML)
+            })
+
+            this.addEventListenerAll(btn, 'mouseclick mouseover mousedown', e=>{
+                btn.style.cursor = "pointer"
+            })
+        })
     }
     
     
