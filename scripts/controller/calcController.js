@@ -1,7 +1,7 @@
 class CalcController{
     constructor(){
         this._locale = "pt-BR"
-        this._equalOn
+        this._equalOn = false
 
         this._displayContentEl = document.querySelector("#content")
         this._historicEl = document.querySelector("#historic")
@@ -129,6 +129,28 @@ class CalcController{
         }
     }
 
+    /*[CORRIGIR AQUI]*/
+    parseFloat(){
+        if (this._equalOn == true){
+            this._operation = []
+            this._equalOn = false
+        }
+        if (this._operation.length == 0 || this._operation.length == 2){
+            this._operation.push('0.') 
+        }else if (this._operation.length == 1){
+            if (this._operation[0].indexOf('.') == -1){
+                this._operation[0] = `${this._operation[0]}.`
+            }
+        }else if (this._operation.length == 3){
+            if (this._operation[2].indexOf('.') == -1){
+                this._operation[2] = `${this._operation[2]}.`
+            }
+            
+        }
+
+        this.displayLastNumber()
+    }
+
     displayHistoricEl(){
         if (this._operation.length > 1){
             this.displayHistoric = this._operation.join(" ")
@@ -157,7 +179,7 @@ class CalcController{
                 
             }else{
                 //OUTRA COISA
-                console.log(value)
+                
             }
         }else{
             //NÚMERO
@@ -176,7 +198,7 @@ class CalcController{
                 
             }else{
                 //OUTRA COISA
-                console.log(value)
+                
             }
             
 
@@ -224,6 +246,9 @@ class CalcController{
                 break
 
             case '.':
+                this.parseFloat()
+                break
+
             case '+':
             case '-':
             case '*':
