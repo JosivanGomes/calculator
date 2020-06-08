@@ -1,8 +1,10 @@
 class CalcController{
     constructor(){
         this._locale = "pt-BR"
+        this._equalOn
 
         this._displayContentEl = document.querySelector("#content")
+        this._historicEl = document.querySelector("#historic")
 
         this._operation = []
 
@@ -26,8 +28,9 @@ class CalcController{
             this.getDateTimeNow()
         }, 1000)
 
+        this.clearAll()
         /*
-        let historicEl = document.querySelector("#historic")
+        
 
         historicEl.innerHTML = "10 + 2 ="
 
@@ -53,31 +56,82 @@ class CalcController{
     }
     clearEntre(){
         this._operation.pop()
+        this.displayCalcContent = 0
     }
 
     clearAll(){
         this._operation = []
+        this.displayCalcContent = 0
     }
 
     deleteEntry(){
         //APAGAR ULTIMA ENTRADA DE TEXTO
     }
 
+
+
+    equal(){
+        if (this._operation.length == 2){
+            this.addOperation(this.displayCalcContent.innerHTML)
+            this._operation[0] = eval(this._operation.join(''))
+            this.displayCalcContent = this._operation[0]
+        }else if(this._operation.length == 3){
+            this._operation[0] = eval(this._operation.join(''))
+            this.displayCalcContent = this._operation[0]
+            /*
+            if (this.getLastEntry() == '+' || this.getLastEntry() == '-'){
+                this.displayCalcContent = eval(this._operation.join(''))
+            }else{
+                this.displayCalcContent = this._operation[0]
+            }
+            */
+        }
+
+        this._equalOn = true
+    }
+
+        
+    operatorPercent(){
+        console.log('porcento', this._operation)
+        if (this._operation.length < 2){
+            this.clearAll()
+        }else if (this._operation.length == 2){
+            if (this.getLastEntry() == '+' || this.getLastEntry() == '-'){
+                this.addOperation(this.getFirstNumber() * this.getFirstNumber() / 100)
+            }else{
+                this.addOperation(this.getFirstNumber() / 100)
+            }
+        }else{
+            this._operation[this._operation.length - 1] = this.getFirstNumber() * this.getLastEntry() / 100
+            this.displayLastNumber() 
+        }
+    }
+
+    getFirstNumber(){
+        return this._operation[0]
+    }
     getLastEntry(){
         return this._operation[this._operation.length - 1]
     }
 
     isOperator(value){
-        return (['+', '-', '*', '/', '%'].indexOf(value) > -1)
+        return (['+', '-', '*', '/'].indexOf(value) > -1)
     }
 
     pushOperator(value){
         if (this._operation.length == 3){
             this._operation = [eval(this._operation.join(''))]
             this.displayLastNumber()
+            
             this._operation.push(value)
         }else{
             this._operation.push(value)
+        }
+    }
+
+    displayHistoricEl(){
+        if (this._operation.length > 1){
+            this.displayHistoric = this._operation.join(" ")
         }
     }
 
@@ -95,10 +149,12 @@ class CalcController{
                     this._operation[lastIndex] = value
                 }else if(this._operation.length > 0){
                     this.pushOperator(value)
+                
                 }
             }else if(!isNaN(value)){
                 this._operation.push(value)
-                this.displayLastNumber() 
+                this.displayLastNumber()
+                
             }else{
                 //OUTRA COISA
                 console.log(value)
@@ -106,10 +162,18 @@ class CalcController{
         }else{
             //NÚMERO
             if(!isNaN(value)){
-                this._operation[lastIndex] += value
-                this.displayLastNumber() 
+                if (this._equalOn){
+                    this._operation = [value]
+                    this._equalOn = false
+                    this.displayLastNumber()    
+                }else{
+                    this._operation[lastIndex] += value
+                    this.displayLastNumber()
+                
+                }
             }else if(this._operation.length > 0){
                 this.pushOperator(value)
+                
             }else{
                 //OUTRA COISA
                 console.log(value)
@@ -152,7 +216,11 @@ class CalcController{
                 break
 
             case '=':
-                
+                this.equal()           
+                break
+
+            case '%':
+                this.operatorPercent()
                 break
 
             case '.':
@@ -160,7 +228,6 @@ class CalcController{
             case '-':
             case '*':
             case '/':
-            case '%':
             case '0':
             case '1':
             case '2':
@@ -206,6 +273,14 @@ class CalcController{
 
     set displayCalcContent(value){
         this._displayContentEl.innerHTML = value
+    }
+
+    get displayHistoric(){
+        return this._historicEl
+    }
+
+    set displayHistoric(value){
+        this._historicEl.innerHTML = value
     }
 
     //Operation's Date and Time
