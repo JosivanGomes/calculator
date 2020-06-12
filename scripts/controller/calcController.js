@@ -120,11 +120,21 @@ class CalcController{
 
     pushOperator(value){
         if (this._operation.length == 3){
-            this._operation = [eval(this._operation.join(''))]
-            this.displayLastNumber()
+            if (!this._equalOn){
+                this._operation = [eval(this._operation.join(''))]
+                this.displayLastNumber()
+                this._operation.push(value)
+            }else{
+                this._operation = [this.displayCalcContent.innerHTML]
+                this.displayLastNumber()
+                this._operation.push(value)
+            }
             
-            this._operation.push(value)
+            
+            
+            
         }else{
+            
             this._operation.push(value)
         }
     }
@@ -132,7 +142,12 @@ class CalcController{
     /*[CORRIGIR AQUI]*/
     parseFloat(){
         if (this._equalOn == true){
-            this._operation = []
+            if(this._operation.length > 3 &&
+               this._operation[this.getLastEntry()] != '.' &&
+               !isNaN(this._operation)){
+                console.log('linha 146', 'zoia')
+                this._operation = []
+            }            
             this._equalOn = false
         }
         if (this._operation.length == 0 || this._operation.length == 2){
@@ -184,11 +199,14 @@ class CalcController{
         }else{
             //NÚMERO
             if(!isNaN(value)){
+                console.log('linha 197', 'estou aqui!')
                 if (this._equalOn){
+                    console.log('linha 199', 'passei aqui!')
                     this._operation = [value]
                     this._equalOn = false
                     this.displayLastNumber()    
                 }else{
+                    console.log('linha 204', 'passei aqui!')
                     this._operation[lastIndex] += value
                     this.displayLastNumber()
                 
