@@ -22,6 +22,8 @@ class CalcController{
     initialize(){
         this.initButtons()
 
+        this.initKeyBoards()
+
         this.getDateTimeNow()
 
         setInterval(() => {
@@ -52,7 +54,7 @@ class CalcController{
     
     //Operation's Calculator
     setError(){
-        this.displayCalcContent = 'Error'
+        alert('Você não está precionando uma tecla Válida!')
     }
     clearEntre(){
         this._operation.pop()
@@ -115,7 +117,9 @@ class CalcController{
     }
 
     isOperator(value){
+        console.log('To passando aqui!')
         return (['+', '-', '*', '/'].indexOf(value) > -1)
+
     }
 
     pushOperator(value){
@@ -139,13 +143,11 @@ class CalcController{
         }
     }
 
-    /*[CORRIGIR AQUI]*/
     parseFloat(){
         if (this._equalOn == true){
             if(this._operation.length > 3 &&
                this._operation[this.getLastEntry()] != '.' &&
                !isNaN(this._operation)){
-                console.log('linha 146', 'zoia')
                 this._operation = []
             }            
             this._equalOn = false
@@ -184,38 +186,58 @@ class CalcController{
             if(this.isOperator(value)){
                 if(this.isOperator(this.getLastEntry())){
                     this._operation[lastIndex] = value
+                    
                 }else if(this._operation.length > 0){
-                    this.pushOperator(value)
-                
+                    if (value.length == 1){
+                        this.pushOperator(value)
+                    }else{
+                        console.log('Operador inválido')
+                    }
+                    
+                    
                 }
             }else if(!isNaN(value)){
                 this._operation.push(value)
                 this.displayLastNumber()
                 
             }else{
-                //OUTRA COISA
-                
+                /*AJEITAR BOTÃO 1/()*/
+                if(this._operation.length == 2){
+                    this._operation[0] = `${value}(${this._operation[0]})`
+                }
+
+                this.equal()
+                                    
             }
         }else{
             //NÚMERO
             if(!isNaN(value)){
-                console.log('linha 197', 'estou aqui!')
                 if (this._equalOn){
-                    console.log('linha 199', 'passei aqui!')
                     this._operation = [value]
                     this._equalOn = false
                     this.displayLastNumber()    
                 }else{
-                    console.log('linha 204', 'passei aqui!')
                     this._operation[lastIndex] += value
                     this.displayLastNumber()
                 
                 }
             }else if(this._operation.length > 0){
-                this.pushOperator(value)
+                if (value.length == 1){
+                    this.pushOperator(value)
+                }else{
+                    /*AJEITAR BOTÃO 1/()*/
+                    if(this._operation.length == 1){
+                        this._operation[0] = `${value}(${this._operation[0]})`
+                    }
+    
+                    this.equal()
+                }
+                if(this._equalOn){
+                    this._equalOn = false
+                }
                 
             }else{
-                //OUTRA COISA
+                console.log('opa!')
                 
             }
             
@@ -227,10 +249,15 @@ class CalcController{
     
     operationBtn(value){
         switch (value){
+            case 'Backspace':
+
+                break
+            case 'Delete':
             case 'CE':
                 this.clearEntre()
                 break
             
+            case 'Escape':
             case 'C':
                 this.clearAll()
                 break
@@ -239,14 +266,17 @@ class CalcController{
                 this.deleteEntry()
                 break
             
+            case 'r':
             case '1/x':
-                
+                /*AJEITAR BOTÃO 1/()*/
+                this.addOperation('1/')    
                 break
 
             case 'x²':
                 
                 break
 
+            case 'q':
             case 'sqr(x)':
                 
                 break
@@ -255,6 +285,7 @@ class CalcController{
                 
                 break
 
+            case 'Enter':
             case '=':
                 this.equal()           
                 break
@@ -263,6 +294,7 @@ class CalcController{
                 this.operatorPercent()
                 break
 
+            case ',':
             case '.':
                 this.parseFloat()
                 break
@@ -304,6 +336,12 @@ class CalcController{
             this.addEventListenerAll(btn, 'mouseclick mouseover mousedown', e=>{
                 btn.style.cursor = "pointer"
             })
+        })
+    }
+
+    initKeyBoards(){
+        addEventListener('keyup', e=>{
+            this.operationBtn(e.key)
         })
     }
     
